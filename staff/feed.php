@@ -27,11 +27,11 @@ include '../functions/html_element.php';
 
   	<nav class="navbar navbar-expand-md fixed-top whiteboard-nav">
   	  <div class="btn-group btn-group-justified">
-        <a class="btn navbar-brand nav-elem nav-curr" href="announcements.php">Feed</a>
+        <a class="btn navbar-brand nav-elem nav-curr" href="feed.php">Feed</a>
   
-        <a class="btn navbar-brand nav-elem" href="inbox.php">Inbox</a>
+        <a class="btn navbar-brand nav-elem" href="inboxs.php">Inbox</a>
   
-        <a class="btn navbar-brand nav-elem" href="homework.php">Homework</a>
+        <a class="btn navbar-brand nav-elem" href="assignments.php">Assignments</a>
       </div>
 
     </nav>
