@@ -46,18 +46,19 @@ include '../session/student-session.php';
                 $num_of_courses = count($courseArray);
     
                 for ($i = 0; $i < $num_of_courses; $i++){
-                  $sql = "SELECT AVG(grade) FROM Grade JOIN Submission
+                  $sql = "SELECT SUM(grade), SUM(points) FROM Grade JOIN Submission
                           ON Grade.submissionID = Submission.id
                           JOIN Assignment ON Submission.assignmentId = Assignment.id WHERE studentID =" . $session_studentId . " AND courseID =" . $courseArray[$i]->get_id();
                   $result = mysqli_query($db, $sql) or die('error getting data');
                   $row = mysqli_fetch_array($result, MYSQLI_BOTH);
-                  $averageGrade = round($row[0],1);
+                  $totalGrade = $row[0];
+                  $totalPoints = $row[1];
                   
                   $class = new html_element('p');
                   $class->set('class', 'lead ingrade');
                   $class->set('id', $i);
                   $class->set('onclick', "loadClass(this)");
-                  $class->set('text',$courseArray[$i]->get_name() . " - " . $courseArray[$i]->get_description() . " - " . $averageGrade);
+                  $class->set('text',$courseArray[$i]->get_name() . " - " . $courseArray[$i]->get_description() . " - " . $totalGrade . " / " . $totalPoints);
                   $class->output();
                 }
                 
@@ -71,10 +72,10 @@ include '../session/student-session.php';
                 ?>
               </div>
               <div class="col" id="courseinfo">
-                <p class="lead ingrade" id="recent"></p>
-                <p class="lead" id="grade1"></p>
-                <p class="lead" id="grade2"> </p>
-                <p class="lead" id="grade3"></p>
+               <p class="lead ingrade" id="recent"></p>
+                <a id="link1" style='color:inherit; text-decoration: none'><p class="lead" id="grade1"></p></a> 
+                <a id="link2" style='color:inherit; text-decoration: none'><p class="lead" id="grade2"> </p></a> 
+                <a id="link3" style='color:inherit; text-decoration: none'><p class="lead" id="grade3"></p></a> 
                 <p class="lead" id="calculation"> </p>
               </div>
             </div>
@@ -110,27 +111,33 @@ include '../session/student-session.php';
         var titles1 = new Array();
         var titles2 = new Array();
         var titles3 = new Array();
+        var id1 = new Array();
+        var id2 = new Array();
+        var id3 = new Array();
         <?php 
         $num_of_courses = count($courseArray);
         for ($i = 0; $i < $num_of_courses; $i++){
-          $sql = "SELECT grade, title FROM Grade JOIN Submission
+          $sql = "SELECT grade, title, points, assignmentId FROM Grade JOIN Submission
                 ON Grade.submissionID = Submission.id
                 JOIN Assignment ON Submission.assignmentId = Assignment.id WHERE studentID =" . $session_studentId . " AND courseID =" . $courseArray[$i]->get_id() . " 
                 ORDER BY Grade.timestamp DESC LIMIT 3";
           $result = mysqli_query($db, $sql) or die('error getting data');
           $row = mysqli_fetch_array($result, MYSQLI_BOTH);
           if(isset($row[0])){ ?>
-            grades1.push('<?php echo $row[0]; ?>');
+            grades1.push('<?php echo $row['grade'] . " / " . $row['points']; ?>');
+            id1.push('<?php echo $row['assignmentId']; ?>')
             titles1.push('<?php echo $row['title']; ?>');
           <?php }
           $row = mysqli_fetch_array($result, MYSQLI_BOTH);
           if(isset($row[0])){ ?>
-            grades2.push('<?php echo $row[0]; ?>');
+            grades2.push('<?php echo $row['grade'] . " / " . $row['points']; ?>');
+            id2.push('<?php echo $row['assignmentId']; ?>')
             titles2.push('<?php echo $row['title']; ?>');
           <?php }
           $row = mysqli_fetch_array($result, MYSQLI_BOTH);
           if(isset($row[0])){ ?>
-            grades3.push('<?php echo $row[0]; ?>');
+            grades3.push('<?php echo $row['grade'] . " / " . $row['points']; ?>');
+            id3.push('<?php echo $row['assignmentId']; ?>')
             titles3.push('<?php echo $row['title']; ?>');
           <?php }
           
@@ -153,18 +160,21 @@ include '../session/student-session.php';
             recent.innerHTML = "Most recent grades for " + courses[c.id];
             if (typeof titles1[c.id] != 'undefined'){
               grade1.innerHTML = titles1[c.id] + ": " + grades1[c.id];
+              document.getElementById("link1").href="assignment.php?id=" + id1[c.id];
             }
             else{
               grade1.innerHTML = "";
             }
             if (typeof titles2[c.id] != 'undefined'){
               grade2.innerHTML = titles2[c.id] + ": " + grades2[c.id];
+              document.getElementById("link2").href="assignment.php?id=" + id2[c.id];
             }
             else{
               grade2.innerHTML = "";
             }
             if (typeof titles3[c.id] != 'undefined'){
               grade3.innerHTML = titles3[c.id] + ": " + grades3[c.id];
+              document.getElementById("link3").href="assignment.php?id=" + id3[c.id];
             }
             else{
               grade3.innerHTML = "";

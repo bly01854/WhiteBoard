@@ -14,7 +14,8 @@ $dueDate = date("m-d-y", strtotime($row['dueDate']));
 
 $query = "SELECT * FROM Submission WHERE studentID =$session_studentId AND assignmentID = $assignment_id";
 $result_submission = $db->query($query);
-$row_submission = $result->fetch_array(MYSQLI_ASSOC);
+$row_submission = $result_submission->fetch_array(MYSQLI_ASSOC);
+$submission_id = $row_submission['id'];
 $num_rows = mysqli_num_rows($result_submission);
 
 ?>
@@ -41,7 +42,7 @@ $num_rows = mysqli_num_rows($result_submission);
   <body style="background-color: <?php echo $session_primaryColor; ?>">
 <?php
 include 'header.php';
-echo error_reporting(E_ALL);
+
 
 //echo "<script type='text/javascript'>alert(". $feedback . ")</script>";
 ?>
@@ -61,11 +62,41 @@ echo error_reporting(E_ALL);
                 <?php
                 if ($num_rows >= 1){
                   $hidden = "hidden";
+                  $sql_file = "SELECT * FROM submission_file WHERE submission_id = $submission_id";
+                  $result_file = $db->query($sql_file);
+                  $num_rows_file = mysqli_num_rows($result_file);
+                  if ($num_rows_file>=1){
+                    $row_file = $result_file->fetch_array(MYSQLI_ASSOC);
+                    $file = $row_file['file'];
+                  }
+                  
                 
                   $header = new html_element('h4');
                   $header->set('style', 'margin-bottom:10px; margin-top:10px');
                   $header->set('text', "Your submission:");
                   $header->output();
+                  
+                  $upload = new html_element('a');
+                  $upload->set('href', 'uploads/'.$file);
+                  $upload->set('text', $file);
+                  $upload->output();
+                  
+                  $comment = new html_element('p');
+                  $comment->set('class', 'lead');
+                  $comment->set('text', $row_submission['comments']);
+                  $comment->output();
+                  
+                  $header = new html_element('h5');
+                  $header->set('style', 'margin-bottom:10px; margin-top:10px');
+                  $header->set('text', "Your grade:");
+                  $header->output();
+                  
+                  $grade = new html_element('p');
+                  $grade->set('class', 'lead');
+                  if($row_submission['graded'] == 0){
+                    $grade->set('text', "Not graded");
+                  }
+                  $grade->output();
                 
                 }
               ?>

@@ -8,6 +8,7 @@ if(isset($_POST['title'])){
   
   $title = test_input($_POST['title']);
   $description = htmlspecialchars($_POST['description']);
+  $points = $_POST['points'];
   $course = $_POST['course'];
   $date = date('Y-m-d',strtotime($_POST['date']));
   
@@ -16,10 +17,10 @@ if(isset($_POST['title'])){
   $row = $result->fetch_array(MYSQLI_ASSOC);
   $courseId = $row['courseID'];
   
-  $sql = "INSERT INTO Assignment (title, body, courseID, dueDate) VALUES (?, ?, ?, ?)";
+  $sql = "INSERT INTO Assignment (title, body, points, courseID, dueDate) VALUES (?, ?, ?, ?, ?)";
   $stmt = $db->stmt_init();
   $stmt->prepare($sql);
-  $stmt->bind_param('ssds', $title, $description, $courseId, $date);
+  $stmt->bind_param('ssdds', $title, $description, $points, $courseId, $date);
   if ($stmt->execute() == TRUE){
     $feedback = "Assignment Created!";
   }
@@ -88,6 +89,7 @@ include 'header.php';
                 </select>
 
                 <input class="form-control assgn" type="date" min="2017-04-01" name="date">
+                <input class="form-control assgn" type="number" name="points" min="0" placeholder="Points Worth">
 
                <div class="form-group assgn">
                   <label for="exampleFormControlTextarea1">Description of this assignment</label>
