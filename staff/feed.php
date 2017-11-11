@@ -33,6 +33,9 @@ include '../functions/html_element.php';
   
         <a class="btn navbar-brand nav-elem" href="assignments.php">Assignments</a>
       </div>
+      <div class="btn-group btn-group-right float-right">
+        <a class="btn btn-outline-secondary" style="margin-left:45px" href="create-announcement.php" target="_parent">Create Announcement</a>
+      </div>
 
     </nav>
 

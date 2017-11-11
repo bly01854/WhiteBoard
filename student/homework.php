@@ -54,7 +54,7 @@ include '../session/student-session.php';
        $column->inject($header);
        
        $courseId = $courseArray[$i]->get_id();
-       $sql = "SELECT title, body, timestamp, dueDate FROM Assignment WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
+       $sql = "SELECT id, title, body, timestamp, dueDate FROM Assignment WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
        $result = mysqli_query($db, $sql) or die('error getting data');
        $num_rows = mysqli_num_rows($result);
        while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
@@ -65,7 +65,12 @@ include '../session/student-session.php';
          $title->set('class','lead');
          $title->set('text',$row['title']);
          $title->inject($image);
-         $column->inject($title);
+         $link = new html_element('a');
+         $link->set('target', '_parent');
+         $link->set('style', 'color:inherit; text-decoration: none');
+         $link->set('href', "assignment.php?id=" . $row['id']);
+         $link->inject($title);
+         $column->inject($link);
          $dueDate = date("m-d-y", strtotime($row[3]));
          $due = new html_element('p');
          $due->set('text', "Due: $dueDate");
