@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="whiteboardcalendar.html">Calendar <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="whiteboardcalendar.php">Calendar <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Messages</a>

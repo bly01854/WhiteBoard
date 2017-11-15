@@ -1,6 +1,7 @@
 <?php
 include '../session/staff-session.php';
 include '../functions/html_element.php';
+include '../functions/console_log.php';
 
 if(isset($_POST['title'])){
   //messages to give back to the user
@@ -27,6 +28,15 @@ if(isset($_POST['title'])){
   else{
     $feedback = "Assignment Creation Failed!";
   }
+  
+  $last_id = $db->insert_id;
+  console_log($last_id);
+  
+  $sql = "INSERT INTO event (title, start, reference_id, course_id) VALUES (?, ?, ?, ?)";
+  $stmt = $db->stmt_init();
+  $stmt->prepare($sql);
+  $stmt->bind_param('ssdd', $title, $date, $last_id, $courseId);
+  $stmt->execute();
   
   
 }
