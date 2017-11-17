@@ -57,11 +57,11 @@ include '../session/admin-session.php';
                     //Hash password
                     $password = password_hash($password, PASSWORD_DEFAULT);
                     //Insert into Staff Table
-                    $sql2 = "INSERT INTO User (username, password, role)
-                    VALUES (?,?,?)";
+                    $sql2 = "INSERT INTO User (username, password, role, instId)
+                    VALUES (?,?,?,?)";
                     $stmt1 = $db->stmt_init();
                     $stmt1->prepare($sql2);
-                    $stmt1->bind_param('sss', $username, $password, $role);
+                    $stmt1->bind_param('sssd', $username, $password, $role, $session_isntId);
                     $stmt1->execute();
                     
                     $sql = "SELECT id FROM User WHERE username = '$username'";
