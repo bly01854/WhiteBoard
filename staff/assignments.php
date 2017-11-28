@@ -40,46 +40,51 @@ include '../functions/html_element.php';
     </nav>
     
     
-    <?php
-    
-    $num_of_courses = count($courseArray);
-    
-    for ($i = 0; $i < $num_of_courses; $i++) {
-       
-       //create assignment object
-       $column = new html_element('div');
-       $column->set('class','col');
-       $header = new html_element('h4');
-       $header->set('text',$courseArray[$i]->get_name());
-       $column->inject($header);
-       
-       $courseId = $courseArray[$i]->get_id();
-       $sql = "SELECT title, body, timestamp, dueDate FROM Assignment WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
-       $result = mysqli_query($db, $sql) or die('error getting data');
-       $num_rows = mysqli_num_rows($result);
-       while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
-         $image = new html_element('i');
-         $image->set('class', 'fa fa-pencil');
-         $image->set('aria-hidden', 'true');
-         $title = new html_element('p');
-         $title->set('class','lead');
-         $title->set('text',$row['title']);
-         $title->inject($image);
-         $column->inject($title);
-         $dueDate = date("m-d-y", strtotime($row[3]));
-         $due = new html_element('p');
-         $due->set('text', "Due: $dueDate");
-         $column->inject($due);
-       }
-       $row = new html_element('div');
-       $row->set('class','row');
-       $row->inject($column);
-       $row->output();
-    }
-    
-    
-    
-    ?>
+                <?php
+                
+                $num_of_courses = count($courseArray);
+                
+                for ($i = 0; $i < $num_of_courses; $i++) {
+                   
+                   //create assignment object
+                   $column = new html_element('div');
+                   $column->set('class','col');
+                   $header = new html_element('h4');
+                   $header->set('text',$courseArray[$i]->get_name());
+                   $column->inject($header);
+                   
+                   $courseId = $courseArray[$i]->get_id();
+                   $sql = "SELECT id, title, body, timestamp, dueDate FROM Assignment WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
+                   $result = mysqli_query($db, $sql) or die('error getting data');
+                   $num_rows = mysqli_num_rows($result);
+                   while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                     $image = new html_element('i');
+                     $image->set('class', 'fa fa-pencil');
+                     $image->set('aria-hidden', 'true');
+                     $title = new html_element('p');
+                     $title->set('class','lead');
+                     $title->set('text',$row['title']);
+                     $title->inject($image);
+                     $link = new html_element('a');
+                     $link->set('href', 'course-submission.php?id=' . $row['id']);
+                     $link->set('style', 'color:inherit; text-decoration: none');
+                     $link->set('target', '_parent');
+                     $link->inject($title);
+                     $column->inject($link);
+                     $dueDate = date("m-d-y", strtotime($row[3]));
+                     $due = new html_element('p');
+                     $due->set('text', "Due: $dueDate");
+                     $column->inject($due);
+                   }
+                   $row = new html_element('div');
+                   $row->set('class','row');
+                   $row->inject($column);
+                   $row->output();
+                }
+                
+                
+                
+                ?>
 
 
 

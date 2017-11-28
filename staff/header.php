@@ -13,19 +13,11 @@
           <li class="nav-item">
             <a class="nav-link" href="whiteboardcalendar.php">Calendar <span class="sr-only">(current)</span></a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Messages</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="gradebook.php">Grades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Assignments</a>
+            <a class="nav-link" href="course-view.php">Courses</a>
           </li>
           
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Settings <i class="fa fa-cog" aria-hidden="true"></i></a>
-          </li>
           
           <li class="nav-item">
               

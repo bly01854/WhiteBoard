@@ -36,15 +36,11 @@ include '../session/student-session.php';
       <div class="container">
         <div class="row justify-content-md-center">
           <div class="col whiteboard whiteboard-main">
-           <!--- <p class="lead"> Announcement in CS 360 <i class="fa fa-bullhorn" aria-hidden="true"></i></p>
-            <p class="lead"> Homework assignment available in CS 360 <i class="fa fa-pencil" aria-hidden="true"></i></p>
-            <p class="lead"> New message from Michael Galloway <i class="fa fa-envelope-open" aria-hidden="true"></i></p>
-            <p class="lead"> Announcement in CS 360 <i class="fa fa-bullhorn" aria-hidden="true"></i></p>. -->
 
-            <iframe src="announcements.php" seamless='seamless'></iframe>
+            <iframe src="announcements.php" style="width: 100%;position: relative;"></iframe>
 
           </div>
-          <div class="col col col-md-3 whiteboard">
+          <div  class="col col col-md-3 whiteboard">
             <p class="lead"> Classes</p>
             <?php
             
@@ -67,15 +63,14 @@ include '../session/student-session.php';
                 $outer_p_tag->set('class','lead');
                 $outer_p_tag->set('text',$course->get_name());
                 $outer_p_tag->inject($inner_p_tag);
-                $outer_p_tag->output();
+                $link = new html_element('a');
+                $link->set('href', 'course.php?location=' . $i);
+                $link->set('style', 'color:inherit; text-decoration: none');
+                $link->inject($outer_p_tag);
+                $link->output();
                 
                 $i++;
                 
-                //echo "<p class='lead'>";
-                //echo $course->get_name();
-                //echo "</p><p class ='instructor'>";
-                //echo $staffName;
-                //echo "</p>";
               }
               
               

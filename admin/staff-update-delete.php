@@ -17,6 +17,12 @@ include '../session/admin-session.php';
     <link rel="stylesheet" href="../css/Navigation-with-Button1.css">
     <link rel="stylesheet" href="../css/PUSH---Bootstrap-Button-Pack.css">
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .results:hover {
+        background-color:LightGrey;
+        cursor:pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,7 +38,7 @@ include '../session/admin-session.php';
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                     <div class="input-group stylish-input-group">
                     
-                        <input type="text" class="form-control"  placeholder="Search by First or Last Name" name="criteria" >
+                        <input type="text" class="form-control"  placeholder="Search by name" name="criteria" >
                         <span class="input-group-addon">
                         <button type="submit" >
                             <span class="glyphicon glyphicon-search"></span>
@@ -49,7 +55,7 @@ include '../session/admin-session.php';
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $criteria = $_POST['criteria'];
-        $query = "SELECT * FROM Staff WHERE firstName LIKE '%" . $criteria . "%' OR lastName LIKE '%" . $criteria . "%'";
+        $query = "SELECT * FROM Staff WHERE (concat_ws(' ', firstName, lastName) LIKE '%$criteria%')";
         $result = mysqli_query($db, $query) or die('error getting data');
         $num_rows = mysqli_num_rows($result);
         
@@ -71,7 +77,7 @@ include '../session/admin-session.php';
             
             
             $staffID = $row['id'];
-            echo "<tr><td><a href='staff.php?staffID=" . $staffID . "'>";
+            echo "<tr class='results' data-value='$staffID'><td>";
             echo $row['firstName'];
             echo "</td><td>";
             echo $row['lastName'];
@@ -100,6 +106,18 @@ include '../session/admin-session.php';
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('tr.results').click(function(){
+            var value = this.getAttribute('data-value');
+            window.location.assign('staff.php?staffID=' + value);
+            
+        })
+
+        
+    });
+        
+    </script>
     
 
 </body>

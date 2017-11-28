@@ -113,13 +113,6 @@ include 'header.php';
                     <input type="file" class="form-control-file" id="exampleFormControlFile1">
                   </div>
 
-                  <div class="form-check assgn">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox" value="">
-                          Accept Late Submissions?
-                    </label>
-                  </div>
-
                   <input type="submit" class="btn btn-primary assgn" >
               </form>
           </div>
@@ -139,7 +132,7 @@ include 'header.php';
       crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
@@ -181,6 +174,7 @@ $("#confirmation").submit(function(event){
     request.done(function (response, textStatus, jqXHR){
         // Alert the user of success
         alert("Assignment Successfully Created!");
+        window.location.replace(history.back());
     });
 
     // Callback handler that will be called on failure
@@ -190,13 +184,6 @@ $("#confirmation").submit(function(event){
             "The following error occurred: "+
             textStatus, errorThrown
         );
-    });
-
-    // Callback handler that will be called regardless
-    // if the request failed or succeeded
-    request.always(function () {
-        // Reenable the inputs
-        $inputs.prop("disabled", false);
     });
 
 });

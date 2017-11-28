@@ -76,6 +76,7 @@ if (isset($_SESSION['login_user'])){
     <div class="login-clean">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <h2 class="sr-only">Login Form</h2>
+            <h2 class='text-center'>WhiteBoard</h2>
             <div class="illustration"><i class="icon ion-ios-browsers-outline"></i></div>
             <p class="text-danger text-center"><?php echo $error;?></p>
             <div class="form-group">
@@ -86,7 +87,7 @@ if (isset($_SESSION['login_user'])){
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block" type="submit" style="background-color:#505e6c;">Log In</button>
-            </div><a href="#" class="forgot">Forgot your email or password?</a></form>
+            </div></form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>

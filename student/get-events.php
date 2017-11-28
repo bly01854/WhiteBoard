@@ -18,6 +18,17 @@ while($row = $result->fetch_array(MYSQLI_ASSOC)){
 	    'allDay' => true);
 }
 
+$sql = "SELECT title, start, announcement_id FROM event_announcement WHERE course_id = $id_array";
+$result = $db->query($sql);
+while($row = $result->fetch_array(MYSQLI_ASSOC)){
+	$json[] = array(
+	    'title' => $row['title'],
+	    'start' => $row['start'],
+	    'url' => 'announcement-view.php?id=' . $row['announcement_id'],
+	    'color' => 'red',
+	    'allDay' => true);
+}
+
 echo json_encode($json);
 
 ?>

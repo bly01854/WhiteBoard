@@ -55,7 +55,7 @@ include '../session/student-session.php';
        $column->inject($header);
        
        $courseId = $courseArray[$i]->get_id();
-       $sql = "SELECT title, body, timestamp FROM Announcement WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
+       $sql = "SELECT id, title, body, timestamp FROM Announcement WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
        $result = mysqli_query($db, $sql) or die('error getting data');
        $num_rows = mysqli_num_rows($result);
        while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
@@ -66,8 +66,13 @@ include '../session/student-session.php';
          $title->set('class','lead');
          $title->set('text',$row['title']);
          $title->inject($image);
-         $column->inject($title);
-         $postDate = date("m-d-y", strtotime($row[2]));
+         $link = new html_element('a');
+         $link->set('href', 'announcement-view.php?id=' . $row['id']);
+         $link->set('style', 'color:inherit; text-decoration: none');
+         $link->set('target', '_parent');
+         $link->inject($title);
+         $column->inject($link);
+         $postDate = date("m-d-y", strtotime($row['timestamp']));
          $time = new html_element('p');
          $time->set('text', "Posted: $postDate");
          $column->inject($time);
@@ -81,20 +86,7 @@ include '../session/student-session.php';
     
     
     ?>
-
-
-
-         <!--   <p class="lead"> Announcement in CS 360 <i class="fa fa-bullhorn" aria-hidden="true"></i></p> 
-            <p class="lead"> Homework assignment available in CS 360 <i class="fa fa-pencil" aria-hidden="true"></i></p>
-            <p class="lead"> New message from Michael Galloway <i class="fa fa-envelope-open" aria-hidden="true"></i></p>
-            <p class="lead"> Announcement in CS 360 <i class="fa fa-bullhorn" aria-hidden="true"></i></p>.
-            <p class="lead"> <?php //echo $sql; echo $num_rows; ?><i class="fa fa-bullhorn" aria-hidden="true"></i></p>
-             -->
              
-            
-
-   
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

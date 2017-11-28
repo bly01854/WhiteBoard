@@ -1,6 +1,8 @@
 <?php
 include '../session/staff-session.php';
 include '../functions/html_element.php';
+
+$location = $_GET['location'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,58 +29,53 @@ include '../functions/html_element.php';
 
   	<nav class="navbar navbar-expand-md fixed-top whiteboard-nav">
   	  <div class="btn-group btn-group-justified">
-        <a class="btn navbar-brand nav-elem nav-curr" href="feed.php">Feed</a>
-  
-        <a class="btn navbar-brand nav-elem" href="inboxs.php">Inbox</a>
-  
-        <a class="btn navbar-brand nav-elem" href="assignments.php">Assignments</a>
+        <a class="btn navbar-brand nav-elem" href="course-announcement.php?location=<?php echo $location ?>">Announcements</a>
+        <a class="btn navbar-brand nav-elem nav-curr" href="course-assignment.php?location=<?php echo $location ?>">Assignments</a>
+        <a class="btn navbar-brand nav-elem" href="course-content.php?location=<?php echo $location ?>">Content</a>
+        <a class="btn navbar-brand nav-elem" href="course-roster.php?location=<?php echo $location ?>">Roster</a>
       </div>
       <div class="btn-group btn-group-right float-right">
-        <a class="btn btn-outline-secondary" style="margin-left:35px" href="create-announcement.php" target="_parent">Create Announcement</a>
+        <a class="btn btn-outline-secondary" style="margin-left:45px" href="create-assignment.php" target="_parent">Create Assignment</a>
       </div>
 
     </nav>
 
 <?php
     
-    $num_of_courses = count($courseArray);
-    
-    for ($i = 0; $i < $num_of_courses; $i++) {
        
        //create assignment object
        $column = new html_element('div');
        $column->set('class','col');
-       $header = new html_element('h4');
-       $header->set('text',$courseArray[$i]->get_name());
-       $column->inject($header);
        
-       $courseId = $courseArray[$i]->get_id();
-       $sql = "SELECT id, title, body, timestamp FROM Announcement WHERE courseID = '$courseId' ORDER BY timestamp DESC LIMIT 3";
+       $courseId = $courseArray[$location]->get_id();
+       $sql = "SELECT id, title, body, timestamp, dueDate FROM Assignment WHERE courseID = '$courseId' ORDER BY timestamp DESC";
        $result = mysqli_query($db, $sql) or die('error getting data');
        $num_rows = mysqli_num_rows($result);
        while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
-         $image = new html_element('i');
-         $image->set('class', 'fa fa-bullhorn');
-         $image->set('aria-hidden', 'true');
-         $title = new html_element('p');
-         $title->set('class','lead');
-         $title->set('text',$row['title']);
-         $link = new html_element('a');
-         $link->set('href', 'announcement-view.php?id=' . $row['id']);
-         $link->set('style', 'color:inherit; text-decoration: none');
-         $link->set('target', '_parent');
-         $link->inject($title);
-         $column->inject($link);
-         $postDate = date("m-d-y", strtotime($row['timestamp']));
-         $time = new html_element('p');
-         $time->set('text', "Posted: $postDate");
-         $column->inject($time);
-       }
-       $row = new html_element('div');
-       $row->set('class','row');
-       $row->inject($column);
-       $row->output();
-    }
+            $image = new html_element('i');
+            $image->set('class', 'fa fa-pencil');
+            $image->set('aria-hidden', 'true');
+            $title = new html_element('p');
+            $title->set('class','lead');
+            $title->set('text',$row['title']);
+            $title->inject($image);
+            $link = new html_element('a');
+            $link->set('href', 'course-submission.php?id=' . $row['id']);
+            $link->set('style', 'color:inherit; text-decoration: none');
+            $link->set('target', '_parent');
+            $link->inject($title);
+            $column->inject($link);
+            $dueDate = date("m-d-y", strtotime($row[3]));
+            $due = new html_element('p');
+            $due->set('text', "Due: $dueDate");
+            $column->inject($due);
+        }
+        $row = new html_element('div');
+        $row->set('class','row');
+        $row->inject($column);
+        $row->output();
+                
+    
     
     
     

@@ -1,6 +1,29 @@
 <?php
 include '../session/staff-session.php';
 include '../functions/html_element.php';
+include '../functions/console_log.php';
+
+
+$content_id = $_GET['id'];
+$sql = "SELECT * FROM content WHERE id =$content_id";
+$result = $db->query($sql);
+$row = $result->fetch_array(MYSQLI_ASSOC);
+
+
+$timestamp = date("m-d-y", strtotime($row['timestamp']));
+
+$sql_file = "SELECT * FROM content_file WHERE content_id = $content_id";
+$result_file = $db->query($sql_file);
+$num_rows_file = mysqli_num_rows($result_file);
+    if ($num_rows_file>=1){
+        $row_file = $result_file->fetch_array(MYSQLI_ASSOC);
+        $file = $row_file['file'];
+        console_log($file);
+        }
+
+
+
+
 ?>
 <html lang="en">
   <head>
@@ -10,7 +33,7 @@ include '../functions/html_element.php';
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>WhiteBoard</title>
+    <title>Content</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -23,40 +46,33 @@ include '../functions/html_element.php';
   </head>
 
   <body style="background-color: <?php echo $session_primaryColor; ?>">
-
 <?php
-  include 'header.php';
+include 'header.php';
+
+
+//echo "<script type='text/javascript'>alert(". $feedback . ")</script>";
 ?>
 
 
       <div class="container">
         <div class="row justify-content-md-center">
-          <div class="col whiteboard whiteboard-main">
+          <div class="col whiteboard whiteboard-main gradebook">
+              <h4 style="margin-bottom:10px"><?php echo $row['title']; ?></h4>
+              
+              
+              <a href='uploads/<?php echo $file ?>'><?php echo $file ?> </a>
 
-            <iframe  src="feed.php" style="width: 100%; position: relative;"></iframe>
+              
 
-          </div>
-          <div  class="col col col-lg-3 whiteboard">
-            <p class="lead"> My Courses</p>
-            
-            <?php
-            for ($i=0; $i<count($courseArray); $i++){
-              $ptag = new html_element('p');
-              $ptag->set('class', 'lead');
-              $ptag->set('text', $courseArray[$i]->get_name());
-              $link = new html_element('a');
-              $link->set('href', 'course.php?location=' . $i);
-              $link->set('style', 'color:inherit; text-decoration: none');
-              $link->inject($ptag);
-              $link->output();
-            }
-            ?>
-            
+                <p class="lead"><?php echo $row['body'] ?></p>
+                
+                <p class="lead">Posted: <?php echo $timestamp ?></p>
+                
+                
 
+              
           </div>
         </div>
-
-    <footer style="background-color: <?php echo $session_secondaryColor; ?>"> <p>  </p> </footer>
 
     </div>
 
@@ -66,10 +82,13 @@ include '../functions/html_element.php';
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>

@@ -7,13 +7,25 @@ for ($i=0; $i<count($courseArray); $i++){
 	array_push($id_array, $courseArray[$i]->get_id());
 }
 $id_array = implode(" OR ", $id_array);
-$sql = "SELECT title, start FROM event WHERE course_id = $id_array";
+$sql = "SELECT title, start, reference_id FROM event WHERE course_id = $id_array";
 $result = $db->query($sql);
 $json = array();
 while($row = $result->fetch_array(MYSQLI_ASSOC)){
 	$json[] = array(
 	    'title' => $row['title'],
 	    'start' => $row['start'],
+	    'url' => 'course-submission.php?id=' . $row['reference_id'],
+	    'allDay' => true);
+}
+
+$sql = "SELECT title, start, announcement_id FROM event_announcement WHERE course_id = $id_array";
+$result = $db->query($sql);
+while($row = $result->fetch_array(MYSQLI_ASSOC)){
+	$json[] = array(
+	    'title' => $row['title'],
+	    'start' => $row['start'],
+	    'url' => 'announcement-view.php?id=' . $row['announcement_id'],
+	    'color' => 'red',
 	    'allDay' => true);
 }
 

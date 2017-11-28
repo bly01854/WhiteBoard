@@ -95,8 +95,23 @@ include 'header.php';
                   $grade->set('class', 'lead');
                   if($row_submission['graded'] == 0){
                     $grade->set('text', "Not graded");
+                    $grade->output();
                   }
-                  $grade->output();
+                  else{
+                    $sql_grade = 'SELECT grade, comment FROM Grade where submissionID =' . $submission_id;
+                    $result_grade = $db->query($sql_grade);
+                    $row_grade = $result_grade->fetch_array(MYSQLI_ASSOC);
+                    $submission_grade = $row_grade['grade'];
+                    $submission_comment= $row_grade['comment'];
+                    
+                    $grade->set('text', $submission_grade . " / " . $row['points']);
+                    $grade->output();
+                    
+                    $staff_comments = new html_element('p');
+                    $staff_comments->set('text', 'Instructor Comments: ' . $submission_comment);
+                    $staff_comments->output();
+                  }
+                  
                 
                 }
               ?>

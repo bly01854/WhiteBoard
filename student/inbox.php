@@ -75,14 +75,13 @@ include '../functions/html_element.php';
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
   
   <?php
-  $sql = 'SELECT SUBSTRING(content, 1, 45) AS content, creator, timestamp FROM message WHERE reciever =' . $user_check;
+  $sql = 'SELECT SUBSTRING(content, 1, 45) AS content, creator, timestamp FROM message WHERE reciever =' . $user_check . ' GROUP BY(creator) DESC';
   $result = $db->query($sql);
   while($row = $result->fetch_array(MYSQLI_ASSOC)){
     //get creator name
@@ -109,13 +108,14 @@ include '../functions/html_element.php';
     }
     
     //generate HTML
-    $row = new html_element('div');
-    $row->set('class', 'row');
+    $row_div = new html_element('div');
+    $row_div->set('class', 'row');
     $col = new html_element('div');
     $col->set('class', 'col');
     $link = new html_element('a');
     $link->set('style', 'color:inherit; text-decoration: none');
-    $link->set('href', 'message.php?id=' . $creator);
+    $link->set('href', 'message.php?id=' . $creator . '&name=' . $name);
+    $link->set('target', '_parent');
     $title = new html_element('p');
     $title->set('class', 'lead');
     $title->set('text', $content);
@@ -125,15 +125,15 @@ include '../functions/html_element.php';
     $title->inject($image);
     $link->inject($title);
     $col->inject($link);
-    $row->inject($col);
+    $row_div->inject($col);
     $col = new html_element('div');
     $col->set('class', 'col');
     $title = new html_element('p');
     $title->set('class', 'instructor');
     $title->set('text', $name);
     $col->inject($title);
-    $row->inject($col);
-    $row->output();
+    $row_div->inject($col);
+    $row_div->output();
     
   }
   ?>

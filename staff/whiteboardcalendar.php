@@ -54,18 +54,9 @@ include '../session/staff-session.php';
           <li class="nav-item active">
             <a class="nav-link" href="whiteboardcalendar.php">Calendar <span class="sr-only">(current)</span></a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Messages</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Grades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Assignments</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Settings <i class="fa fa-cog" aria-hidden="true"></i></a>
+            <a class="nav-link" href="course-view.php">Courses</a>
           </li>
           
           <li class="nav-item">
