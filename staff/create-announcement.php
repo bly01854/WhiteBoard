@@ -83,10 +83,10 @@ include 'header.php';
 
               <form id="confirmation">
 
-                <input class="form-control assgn" type="text" name="title" placeholder="Announcement Title">
+                <input class="form-control assgn" type="text" name="title" id="title" placeholder="Announcement Title" required>
 
-                <select class="form-control assgn" name="course">
-                  <option>Select a class</option>
+                <select class="form-control assgn" name="course" required>
+                  <option value="" disabled selected>Select your option</option>
                   <?php
                   for ($i = 0; $i<count($courseArray); $i++){
                     $option = new html_element('option');
@@ -99,7 +99,7 @@ include 'header.php';
 
                <div class="form-group assgn">
                   <label for="exampleFormControlTextarea1">Announcement Description</label>
-                  <textarea class="form-control" rows="3" name="description" form="confirmation"></textarea>
+                  <textarea class="form-control" rows="3" name="description" form="confirmation" required></textarea>
                 </div>
                 
                   <div class="form-check assgn">
@@ -196,7 +196,11 @@ $("#confirmation").submit(function(event){
 //for checkbox
 document.getElementById('eventBox').onchange = function() {
     document.getElementById('date').disabled = !this.checked;
+    document.getElementById('date').required = this.checked;
 };
+
+
+
     </script>
   </body>
 </html>

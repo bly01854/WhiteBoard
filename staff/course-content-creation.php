@@ -46,7 +46,7 @@ include 'header.php';
                     
                 <div class="form-group assgn">
                     <label for="exampleFormControlFile1">Content Title</label>
-                    <input type="text" class="form-control" name="title">
+                    <input type="text" class="form-control" name="title" required>
                   </div>
                 
                 <div class="form-group assgn">

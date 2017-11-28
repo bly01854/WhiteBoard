@@ -85,7 +85,7 @@ include 'header.php';
 
               <form id="confirmation">
 
-                <input class="form-control assgn" type="text" name="title" placeholder="Assignment name">
+                <input class="form-control assgn" type="text" name="title" placeholder="Assignment name" required>
 
                 <select class="form-control assgn" name="course">
                   <option>Select a class</option>
@@ -98,8 +98,8 @@ include 'header.php';
                   ?>
                 </select>
 
-                <input class="form-control assgn" type="date" min="2017-04-01" name="date">
-                <input class="form-control assgn" type="number" name="points" min="0" placeholder="Points Worth">
+                <input class="form-control assgn" type="date" min="2017-04-01" name="date" required>
+                <input class="form-control assgn" type="number" name="points" min="0" placeholder="Points Worth" required>
 
                <div class="form-group assgn">
                   <label for="exampleFormControlTextarea1">Description of this assignment</label>
@@ -107,11 +107,6 @@ include 'header.php';
                 </div>
 
                 
-
-                  <div class="form-group assgn">
-                    <label for="exampleFormControlFile1">Upload the assignment here, if needed</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                  </div>
 
                   <input type="submit" class="btn btn-primary assgn" >
               </form>

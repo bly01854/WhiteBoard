@@ -46,7 +46,7 @@ include '../functions/html_element.php';
                 
                <div class="form-group assgn">
 
-                  <textarea class="form-control" rows="3" name="content" placeholder="Enter Text Here" id="textarea"></textarea>
+                  <textarea class="form-control" rows="3" name="content" placeholder="Enter Text Here" id="textarea" required></textarea>
                 </div>
 
                   <input type="submit" class="btn btn-primary assgn pull-right" name="input">
